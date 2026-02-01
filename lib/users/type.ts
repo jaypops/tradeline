@@ -15,6 +15,7 @@ export interface UserStore {
   setSearchQuery: (query: string) => void;
   setFilterStatus: (status: "all" | "active" | "inactive") => void;
   setShowAddModal: (show: boolean) => void;
+  setUsers: (users: User[]) => void;
 
   toggleUserStatus: (id: number) => void;
   deleteUser: (id: number) => void;

@@ -1,4 +1,4 @@
-import { UserStore } from "@/lib/users/type";
+import { UserStore, User } from "@/lib/users/type";
 import { usersDetails } from "@/lib/users/usersDetails";
 import { create } from "zustand";
 
@@ -10,6 +10,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
   setSearchQuery: (query) => set({ searchQuery: query }),
   setFilterStatus: (status) => set({ filterStatus: status }),
   setShowAddModal: (show) => set({ showAddModal: show }),
+  setUsers: (users: User[]) => set({ users }),
   toggleUserStatus: (id) =>
     set({
       users: get().users.map((user) =>

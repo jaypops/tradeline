@@ -6,9 +6,32 @@ import UserTable from "@/components/users/UserTable";
 import { useUserStore } from "@/states/useUserStore";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { useEffect } from "react";
 
 export default function UsersPage() {
-  const { users, setShowAddModal } = useUserStore();
+  // Fetch users from Convex
+  const convexUsers = useQuery(api.users.listUsers);
+  const { users, setShowAddModal, setUsers } = useUserStore();
+
+  // Update store when Convex data changes
+  useEffect(() => {
+    if (convexUsers !== undefined) {
+      const formattedUsers = convexUsers.map((user) => ({
+        id: Number(user.id),
+        name: user.name,
+        email: user.email,
+        status: (user.isActive ? "active" : "inactive") as "active" | "inactive",
+        lastLogin: user.lastLogin
+          ? new Date(user.lastLogin).toLocaleString()
+          : "Never",
+        downloads: 0, // Will be updated when download logs are implemented
+      }));
+      setUsers(formattedUsers);
+    }
+  }, [convexUsers, setUsers]);
+
   const activeCount = users.filter((user) => user.status === "active").length;
   const inactiveCount = users.filter(
     (user) => user.status === "inactive"

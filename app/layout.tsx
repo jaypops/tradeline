@@ -4,6 +4,7 @@ import "./globals.css";
 import Clientshell from "./Clientshell";
 import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "@/components/ui/sonner";
+import { ConvexClientProvider } from "./ConvexClientProvider";
 
 const sora = Sora({
   variable: "--font-sora",
@@ -24,7 +25,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${sora.variable} antialiased`}>
         <NextTopLoader color="#00943f" height={4} showSpinner={false} />
-        <Clientshell>{children}</Clientshell>
+        <Clientshell>
+          <ConvexClientProvider>{children}</ConvexClientProvider>
+        </Clientshell>
         <Toaster position="top-right" />
       </body>
     </html>
